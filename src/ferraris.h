@@ -4,7 +4,7 @@
 
 
 // how many Ferraris meters do we want
-#define FERRARIS_NUM 4
+#define FERRARIS_NUM 2
 
 // define logic level of pin input
 #define FERRARIS_RED     HIGH
