@@ -56,6 +56,11 @@ void checkMQTTconnection(void)
       //clientId += String(random(0xffff), HEX);
       clientId += String(configManager.data.messure_place);
       // Attempt to connect
+      // more output...
+      Serial.print(" user=");
+      Serial.print(configManager.data.mqtt_user);
+      Serial.println();
+      //
       if (MQTTclient.connect(clientId.c_str(),configManager.data.mqtt_user,configManager.data.mqtt_password)) {
         Serial.println("connected");
         dash.data.MQTT_Connected = true;
@@ -65,7 +70,7 @@ void checkMQTTconnection(void)
         // MQTTclient.subscribe("inTopic");
         String topic[3]={"UKWh","Stand","Entprellzeit"};
         for (int tId = 0; tId < 3; tId++) {
-          for (int i = 0; i < 4; i++) {
+          for (int i = 0; i < FERRARIS_NUM; i++) {
             ESP.wdtFeed();  // keep WatchDog alive
             String t = getSetTopicName(i+1, topic[tId]);
             if (MQTTclient.subscribe(t.c_str())) {
@@ -95,12 +100,13 @@ void publishMQTT_HA(void)
   String topic;
   String cmdTopic;
   String haTopic;
-  StaticJsonDocument<240> discoverDocument;
+  // old: StaticJsonDocument<240> discoverDocument;
+  JsonDocument discoverDocument;
   char discoverJson[240];
   char uniqueId[30];
   String meterName;
   ESP.wdtFeed();  // keep WatchDog alive
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < FERRARIS_NUM; i++) {
     // kW
     discoverDocument.clear();
     memset(discoverJson, 0, sizeof(discoverJson));
@@ -234,6 +240,7 @@ void publishMQTT_simple()
   itoa(configManager.data.meter_debounce_1, message_buffer, 10);
   MQTTclient.publish(topic.c_str(), message_buffer, true);
 
+#if FERRARIS_NUM > 1
   // Meter #2
   topic = getTopicName(2, "Stand");
   dtostrf(Ferraris::getInstance(1).get_kWh(), 1, 1, message_buffer);
@@ -250,7 +257,9 @@ void publishMQTT_simple()
   topic = getTopicName(2,"Entprellzeit");
   itoa(configManager.data.meter_debounce_2, message_buffer, 10);
   MQTTclient.publish(topic.c_str(), message_buffer, true);
+#endif
 
+#if FERRARIS_NUM > 2
   // Meter #3
   topic = getTopicName(3, "Stand");
   dtostrf(Ferraris::getInstance(2).get_kWh(), 1, 1, message_buffer);
@@ -267,7 +276,9 @@ void publishMQTT_simple()
   topic = getTopicName(3, "Entprellzeit");
   itoa(configManager.data.meter_debounce_3, message_buffer, 10);
   MQTTclient.publish(topic.c_str(), message_buffer, true);
+#endif
 
+#if FERRARIS_NUM > 3
   // Meter #4
   topic = getTopicName(4, "Stand");
   dtostrf(Ferraris::getInstance(3).get_kWh(), 1, 1, message_buffer);
@@ -284,6 +295,7 @@ void publishMQTT_simple()
   topic = getTopicName(4, "Entprellzeit");
   itoa(configManager.data.meter_debounce_4, message_buffer, 10);
   MQTTclient.publish(topic.c_str(), message_buffer, true);
+#endif
 }
 
 

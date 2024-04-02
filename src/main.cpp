@@ -303,7 +303,7 @@ void setup() {
   MQTTclient.setCallback(parseMQTTmessage);
   MQTTclient.setBufferSize(320); // TODO: maybe we can calculate this based on the largest assumed request + its parameters?
 
-  memcpy(dash.data.Version, "v.0.98", 6);
+  memcpy(dash.data.Version, "v.0.99", 6);
 
   // activate port for status LED
   pinMode(LED_BUILTIN, OUTPUT);

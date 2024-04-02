@@ -33,7 +33,7 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
   String kwhCmdTopic;
   String debounceTimeCmdTopic;
   bool processed=false;
-  for (int i=0; i<4; i++) {
+  for (int i=0; i<FERRARIS_NUM; i++) {
     ukwhCmdTopic         = getSetTopicName(i+1, "UKWh");
     kwhCmdTopic          = getSetTopicName(i+1, "Stand");
     debounceTimeCmdTopic = getSetTopicName(i+1, "Entprellzeit");
@@ -49,6 +49,8 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+
+#if FERRARIS_NUM > 1
         case 2:
           Serial.print("Setting configManager.data.meter_loops_count_2 to ");
           Serial.print(meters_per_loop);
@@ -57,6 +59,9 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
+
+#if FERRARIS_NUM > 2
         case 3:
           Serial.print("Setting configManager.data.meter_loops_count_3 to ");
           Serial.print(meters_per_loop);
@@ -65,6 +70,9 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
+
+#if FERRARIS_NUM > 3
         case 4:
           Serial.print("Setting configManager.data.meter_loops_count_4 to ");
           Serial.print(meters_per_loop);
@@ -73,6 +81,7 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
 
         default:
           break;
@@ -94,6 +103,8 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+
+#if FERRARIS_NUM > 1
         case 2:
           Serial.print("Setting configManager.data.meter_counter_reading_2 to ");
           Serial.print(meter_value);
@@ -102,6 +113,9 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
+
+#if FERRARIS_NUM > 2
         case 3:
           Serial.print("Setting configManager.data.meter_counter_reading_3 to ");
           Serial.print(meter_value);
@@ -110,6 +124,9 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
+
+#if FERRARIS_NUM > 3
         case 4:
           Serial.print("Setting configManager.data.meter_counter_reading_4 to ");
           Serial.print(meter_value);
@@ -118,6 +135,7 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
 
         default:
           break;
@@ -139,6 +157,8 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+
+#if FERRARIS_NUM > 1
         case 2:
           Serial.print("Setting configManager.data.debounce_2 to ");
           Serial.print(debounce_value);
@@ -147,6 +167,9 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
+
+#if FERRARIS_NUM > 2
         case 3:
           Serial.print("Setting configManager.data.debounce_3 to ");
           Serial.print(debounce_value);
@@ -155,6 +178,9 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
+
+#if FERRARIS_NUM > 3
         case 4:
           Serial.print("Setting configManager.data.debounce_4 to ");
           Serial.print(debounce_value);
@@ -163,6 +189,7 @@ void parseMQTTmessage(char* topic, byte* payload, unsigned int length)
           saveConfig = true;
           processed  = true;
           break;
+#endif
 
         default:
           break;

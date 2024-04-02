@@ -4,12 +4,24 @@
 
 // ugly stuff to get interrupt callable
 static void IRAM_ATTR staticInterruptHandler0() { Ferraris::getInstance(0).IRQhandler(); }
+#if FERRARIS_NUM > 1
 static void IRAM_ATTR staticInterruptHandler1() { Ferraris::getInstance(1).IRQhandler(); }
+#endif
+#if FERRARIS_NUM > 2
 static void IRAM_ATTR staticInterruptHandler2() { Ferraris::getInstance(2).IRQhandler(); }
+#endif
+#if FERRARIS_NUM > 3
 static void IRAM_ATTR staticInterruptHandler3() { Ferraris::getInstance(3).IRQhandler(); }
+#endif
+#if FERRARIS_NUM > 4
 static void IRAM_ATTR staticInterruptHandler4() { Ferraris::getInstance(4).IRQhandler(); }
+#endif
+#if FERRARIS_NUM > 5
 static void IRAM_ATTR staticInterruptHandler5() { Ferraris::getInstance(5).IRQhandler(); }
+#endif
+#if FERRARIS_NUM > 6
 static void IRAM_ATTR staticInterruptHandler6() { Ferraris::getInstance(6).IRQhandler(); }
+#endif
 
 void (*staticInterruptHandlers[FERRARIS_NUM])() =
 {
@@ -59,12 +71,24 @@ Ferraris::Ferraris()
   pinMode(m_PIN, INPUT_PULLUP);
   switch (F) {
     case 0: m_handler = staticInterruptHandler0; break;
+#if FERRARIS_NUM > 1
     case 1: m_handler = staticInterruptHandler1; break;
+#endif
+#if FERRARIS_NUM > 2
     case 2: m_handler = staticInterruptHandler2; break;
+#endif
+#if FERRARIS_NUM > 3
     case 3: m_handler = staticInterruptHandler3; break;
+#endif
+#if FERRARIS_NUM > 4
     case 4: m_handler = staticInterruptHandler4; break;
+#endif
+#if FERRARIS_NUM > 5
     case 5: m_handler = staticInterruptHandler5; break;
+#endif
+#if FERRARIS_NUM > 6
     case 6: m_handler = staticInterruptHandler6; break;
+#endif
     default: abort();
   }
 }
