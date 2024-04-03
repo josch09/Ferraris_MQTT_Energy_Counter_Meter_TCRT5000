@@ -42,6 +42,13 @@
         "direction": "display"
     },
     {
+        "name": "revolutionsRaw_1",
+        "label": "Umdrehungen [U] (raw)",
+        "type": "uint32_t",
+        "length": 5,
+        "direction": "display"
+    },
+    {
         "name": "W_1",
         "label": "Leistung [W]",
         "type": "int16_t",
@@ -62,6 +69,13 @@
     {
         "name": "revolutions_2",
         "label": "Umdrehungen [U]",
+        "type": "uint32_t",
+        "length": 5,
+        "direction": "display"
+    },
+    {
+        "name": "revolutionsRaw_2",
+        "label": "Umdrehungen [U] (raw)",
         "type": "uint32_t",
         "length": 5,
         "direction": "display"

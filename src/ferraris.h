@@ -51,6 +51,10 @@ class Ferraris {
     unsigned long   get_revolutions() const;
     void            set_revolutions(unsigned long value);
 
+    // total revolution count (raw)
+    unsigned long   get_revolutionsRaw() const;
+    void            set_revolutionsRaw(unsigned long value);
+
     // config: revolutions per kWh
     unsigned int    get_U_kWh() const;
     void            set_U_kWh(unsigned int value);
@@ -65,6 +69,9 @@ class Ferraris {
 
     enum states {startup, silver_debounce, silver, red_debounce, red};
 
+    // new Interval time [ms] returns true when suspicious revolution detected
+    bool             setNewInterval(unsigned int value);
+
   private:
     uint8_t           m_PIN;
     uint8_t           m_DPIN;
@@ -77,7 +84,17 @@ class Ferraris {
     unsigned long     m_timestamp;
     unsigned long     m_timestampLast1;
     unsigned long     m_timestampLast2;
-    unsigned long     m_revolutions;      // total amount of revolutions
+    unsigned long     m_revolutions;      // total amount of revolutions (corrected filtered)
+    unsigned long     m_revolutionsRaw;   // revolutions unfiltered
+
+    unsigned long     m_interval1;        // suspicious interval in ms detection
+    unsigned long     m_interval2;
+    unsigned long     m_interval3;
+    unsigned long     m_interval4;
+    unsigned long     m_interval5;
+    unsigned long     m_intervalTraining;
+    bool              m_suspicious;       // suspicious interval detected
+
     bool              m_changed;          // something has changed -> give info in loop()
     short int         m_direction;        // direction of last count
 

@@ -60,6 +60,14 @@ Ferraris::Ferraris()
   , m_timestampLast1(0)
   , m_timestampLast2(0)
   , m_revolutions(0)
+  , m_revolutionsRaw(0)   // revolutions unfiltered
+  , m_interval1(0)        // suspicious interval detection
+  , m_interval2(0)
+  , m_interval3(0)
+  , m_interval4(0)
+  , m_interval5(0)
+  , m_intervalTraining(true)
+  , m_suspicious(false)
   , m_changed(false)
   , m_direction(+1)
   , m_average_timestamp(0)
@@ -172,7 +180,14 @@ void Ferraris::IRQhandler()
     m_state = Ferraris::states::red_debounce;
     if ((!m_config_twoway) ||
         (m_config_twoway && (digitalRead(m_DPIN) == FERRARIS_SILVER))) {
-      m_revolutions++;
+
+      if (!m_config_twoway)
+        setNewInterval(m_timestamp - m_timestampLast1);
+      // suspicious values do not count
+      if (!m_suspicious)
+        m_revolutions++;
+      m_revolutionsRaw++;
+
       m_direction = std::min(1, m_direction+1);
       m_timestampLast2 = m_timestampLast1;
       m_timestampLast1 = m_timestamp;
@@ -197,6 +212,37 @@ void Ferraris::IRQhandler()
 // ----------------------------------------------------------------------------
 // calculation functions
 // ----------------------------------------------------------------------------
+
+// new Interval time [ms]
+bool Ferraris::setNewInterval(unsigned int value)
+{
+  // returns true when the previous interval was suspicious
+  if (m_interval5)
+    m_intervalTraining = false;
+
+  m_interval5 = m_interval4;
+  m_interval4 = m_interval3;
+  m_interval3 = m_interval2;
+  m_interval2 = m_interval1;
+  m_interval1 = value;
+  m_suspicious = false;
+
+  if (m_intervalTraining)
+    return false;
+
+  // LONG SHORT LONG LONG|LONG LONG
+  if ((m_interval2 < m_interval1/3) &&
+      (m_interval2 < m_interval3/3) &&
+//    (m_interval2 < m_interval4/3) &&
+      (m_interval2 < m_interval5/3)) {
+    m_suspicious = true;
+    return true;
+  }
+
+  return false;
+}
+
+
 
 bool Ferraris::get_state() const
 {
@@ -273,6 +319,17 @@ unsigned long Ferraris::get_revolutions() const
 void Ferraris::set_revolutions(unsigned long value)
 {
   m_revolutions = value;
+  m_changed = true;
+}
+
+unsigned long Ferraris::get_revolutionsRaw() const
+{
+  return m_revolutionsRaw;
+}
+
+void Ferraris::set_revolutionsRaw(unsigned long value)
+{
+  m_revolutionsRaw = value;
   m_changed = true;
 }
 
