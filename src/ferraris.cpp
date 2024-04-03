@@ -214,10 +214,18 @@ void Ferraris::IRQhandler()
 // ----------------------------------------------------------------------------
 
 // new Interval time [ms]
-bool Ferraris::setNewInterval(unsigned int value)
+bool Ferraris::setNewInterval(unsigned long value)
 {
   // returns true when the previous interval was suspicious
-  if (m_interval5)
+
+  if ((!m_intervalTraining) &&
+      (value < 100)) {
+        // interval value too short
+        m_suspicious = true;
+        return true;
+  }
+
+  if (m_interval5 > 0)
     m_intervalTraining = false;
 
   m_interval5 = m_interval4;
@@ -230,11 +238,29 @@ bool Ferraris::setNewInterval(unsigned int value)
   if (m_intervalTraining)
     return false;
 
-  // LONG SHORT LONG LONG|LONG LONG
+  // LONG SHORT LONG XXXX LONG
   if ((m_interval2 < m_interval1/3) &&
       (m_interval2 < m_interval3/3) &&
-//    (m_interval2 < m_interval4/3) &&
       (m_interval2 < m_interval5/3)) {
+    m_suspicious = true;
+    return true;
+  }
+
+  // LONG SHORT SHORT LONG LONG
+  if ((m_interval2 < m_interval1/3) &&
+      (m_interval3 < m_interval1/3) &&
+      (m_interval2 < m_interval4/3) &&
+      (m_interval3 < m_interval4/3)) {
+    m_suspicious = true;
+    return true;
+  }
+
+  // LONG SHORT SHORT SHORT LONG
+  if ((m_interval2 < m_interval1/4) &&
+      (m_interval3 < m_interval1/4) &&
+      (m_interval4 < m_interval1/4) &&
+      (m_interval2 < m_interval5/4) &&
+      (m_interval3 < m_interval5/4)) {
     m_suspicious = true;
     return true;
   }

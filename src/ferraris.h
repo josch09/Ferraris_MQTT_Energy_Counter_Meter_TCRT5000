@@ -70,7 +70,7 @@ class Ferraris {
     enum states {startup, silver_debounce, silver, red_debounce, red};
 
     // new Interval time [ms] returns true when suspicious revolution detected
-    bool             setNewInterval(unsigned int value);
+    bool             setNewInterval(unsigned long value);
 
   private:
     uint8_t           m_PIN;
