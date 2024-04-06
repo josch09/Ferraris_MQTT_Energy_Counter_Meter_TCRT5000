@@ -68,6 +68,12 @@
         "control": "password"
     },
     {
+        "name": "sensordata_allinone",
+        "label": "Sensor-Data All-in-one",
+        "type": "bool",
+        "value": true
+    },
+    {
         "name": "home_assistant_auto_discovery",
         "label": "Home-Assistant Auto Discovery",
         "type": "bool",

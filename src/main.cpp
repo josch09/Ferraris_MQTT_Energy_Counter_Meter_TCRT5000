@@ -15,6 +15,11 @@
   The ESP firmware update can be done via "Over-The-Air".
 
   History
+
+  Ver. 0.99 (20240406)
+  - make MQTT more node-red friendly, reduce MQTT traffic
+  - filter out pulses which are wrong/suspicious TCRT5000 
+
   Ver. 0.98 (20230617)
   - combine each two meters to allow backwards counting with two IR detectors on same meter
 
