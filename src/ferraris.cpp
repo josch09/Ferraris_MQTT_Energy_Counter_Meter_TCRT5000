@@ -246,19 +246,19 @@ bool Ferraris::setNewInterval(unsigned long value)
     return true;
   }
 
-  // LONG SHORT SHORT LONG LONG
-  if ((m_interval2 < m_interval1/3) &&
-      (m_interval3 < m_interval1/3) &&
-      (m_interval2 < m_interval4/3) &&
-      (m_interval3 < m_interval4/3)) {
+  // LONG SHORT SHORT LONG XXXX
+  if ((m_interval2 < m_interval1/4) &&
+      (m_interval3 < m_interval1/4) &&
+      (m_interval2 < m_interval4/4) &&
+      (m_interval3 < m_interval4/4)) {
     m_suspicious = true;
     return true;
   }
 
   // LONG SHORT SHORT SHORT LONG
-  if ((m_interval2 < m_interval1/4) &&
-      (m_interval3 < m_interval1/4) &&
-      (m_interval4 < m_interval1/4) &&
+  if ((m_interval2 < m_interval1/5) &&
+      (m_interval3 < m_interval1/5) &&
+      (m_interval4 < m_interval1/5) &&
       (m_interval2 < m_interval5/4) &&
       (m_interval3 < m_interval5/4)) {
     m_suspicious = true;
