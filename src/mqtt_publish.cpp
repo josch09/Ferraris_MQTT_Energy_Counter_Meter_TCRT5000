@@ -223,81 +223,66 @@ void publishMQTT_simple()
 {
   String topic;
 
-  // Meter #1
-  topic = getTopicName(1, "Stand");
-  dtostrf(Ferraris::getInstance(0).get_kWh(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
+  for (int m(0); m < FERRARIS_NUM; ++m) {
 
-  topic = getTopicName(1, "W");
-  dtostrf(Ferraris::getInstance(0).get_W_average(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, false);
+    // Meter #m
+    topic = getTopicName(m+1, "Stand");
+    dtostrf(Ferraris::getInstance(m).get_kWh(), 1, 1, message_buffer);
+    MQTTclient.publish(topic.c_str(), message_buffer, true);
 
-  topic = getTopicName(1, "UKWh");
-  itoa(configManager.data.meter_loops_count_1, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
+    topic = getTopicName(m+1, "W");
+    dtostrf(Ferraris::getInstance(m).get_W_average(), 1, 1, message_buffer);
+    MQTTclient.publish(topic.c_str(), message_buffer, false);
 
-  topic = getTopicName(1, "Entprellzeit");
-  itoa(configManager.data.meter_debounce_1, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
+    // publish the config
+    topic = getTopicName(1, "UKWh");
+    itoa(Ferraris::getInstance(m).get_U_kWh(), message_buffer, 10);
+    MQTTclient.publish(topic.c_str(), message_buffer, true);
 
-#if FERRARIS_NUM > 1
-  // Meter #2
-  topic = getTopicName(2, "Stand");
-  dtostrf(Ferraris::getInstance(1).get_kWh(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-
-  topic = getTopicName(2, "W");
-  dtostrf(Ferraris::getInstance(1).get_W_average(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, false);
-
-  topic = getTopicName(2, "UKWh");
-  itoa(configManager.data.meter_loops_count_2, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-
-  topic = getTopicName(2,"Entprellzeit");
-  itoa(configManager.data.meter_debounce_2, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-#endif
-
-#if FERRARIS_NUM > 2
-  // Meter #3
-  topic = getTopicName(3, "Stand");
-  dtostrf(Ferraris::getInstance(2).get_kWh(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-
-  topic = getTopicName(3, "W");
-  dtostrf(Ferraris::getInstance(2).get_W_average(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, false);
-
-  topic = getTopicName(3, "UKWh");
-  itoa(configManager.data.meter_loops_count_3, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-
-  topic = getTopicName(3, "Entprellzeit");
-  itoa(configManager.data.meter_debounce_3, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-#endif
-
-#if FERRARIS_NUM > 3
-  // Meter #4
-  topic = getTopicName(4, "Stand");
-  dtostrf(Ferraris::getInstance(3).get_kWh(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-
-  topic = getTopicName(4, "W");
-  dtostrf(Ferraris::getInstance(3).get_W_average(), 1, 1, message_buffer);
-  MQTTclient.publish(topic.c_str(), message_buffer, false);
-
-  topic = getTopicName(4, "UKWh");
-  itoa(configManager.data.meter_loops_count_4, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-
-  topic = getTopicName(4, "Entprellzeit");
-  itoa(configManager.data.meter_debounce_4, message_buffer, 10);
-  MQTTclient.publish(topic.c_str(), message_buffer, true);
-#endif
+    // publish the config
+    topic = getTopicName(m+1, "Entprellzeit");
+    itoa(Ferraris::getInstance(m).get_debounce(), message_buffer, 10);
+    MQTTclient.publish(topic.c_str(), message_buffer, true);
+  }
 }
 
+
+void publishMQTT_allinone(void)
+{
+  String topic;
+  String sensordata;
+  sensordata.reserve(220);
+
+  for (int m(0); m < FERRARIS_NUM; ++m) {
+
+    // Meter #m
+    topic = getTopicName(m+1, "Sensor");
+    dtostrf(Ferraris::getInstance(m).get_kWh(), 1, 1, message_buffer);
+    sensordata = "{\"totalkWh\": ";
+    sensordata.concat(message_buffer);
+    dtostrf(Ferraris::getInstance(m).get_W_average(), 1, 1, message_buffer);
+    sensordata.concat(",\"power\": ");
+    sensordata.concat(message_buffer);
+    ultoa(Ferraris::getInstance(m).get_revolutionsRaw(), message_buffer, 10);
+    sensordata.concat(",\"uRaw\": ");
+    sensordata.concat(message_buffer);
+    ultoa(Ferraris::getInstance(m).get_revolutions(), message_buffer, 10);
+    sensordata.concat(",\"u\": ");
+    sensordata.concat(message_buffer);
+    sensordata.concat(" }");
+    MQTTclient.publish(topic.c_str(), sensordata.c_str(), true);
+
+    // publish the config
+    topic = getTopicName(m+1, "UKWh");
+    itoa(Ferraris::getInstance(m).get_U_kWh(), message_buffer, 10);
+    MQTTclient.publish(topic.c_str(), message_buffer, true);
+
+    // publish the config
+    topic = getTopicName(m+1, "Entprellzeit");
+    itoa(Ferraris::getInstance(m).get_debounce(), message_buffer, 10);
+    MQTTclient.publish(topic.c_str(), message_buffer, true);
+  }
+}
 
 void publishMQTT(void)
 {
@@ -305,5 +290,10 @@ void publishMQTT(void)
     publishMQTT_HA();
   }
 
-  publishMQTT_simple();
+  if (configManager.data.sensordata_allinone) {
+    publishMQTT_allinone();
+  }
+  else {
+    publishMQTT_simple();
+  }
 }
