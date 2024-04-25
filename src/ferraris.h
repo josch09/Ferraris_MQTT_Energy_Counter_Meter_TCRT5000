@@ -25,8 +25,8 @@ class Ferraris {
   * IR Pin Messure 6   (D7) GPIO 13    (IO13)      (D7)
   * IR Pin Messure 7   (D8) GPIO 15                (D8)
   */
-    const u_int8_t PINS[7]  = {D1, D2, D3, D5, D6, D7, D8};
-    const u_int8_t DPINS[7] = {D2, D1, D5, D3, D7, D8, D7};
+    const uint8_t PINS[7]  = {D1, D2, D3, D5, D6, D7, D8};
+    const uint8_t DPINS[7] = {D2, D1, D5, D3, D7, D8, D7};
 
   private: // singleton pattern: prevent access to constructors
     Ferraris();
