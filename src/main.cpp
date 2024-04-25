@@ -114,6 +114,7 @@
 #include <TZ.h>
 #include <time.h>    // time() ctime()
 #include <ArduinoJson.h>
+#include <assert.h>
 
 #include "ferraris.h"
 #include "mqtt_subscribe.h"
