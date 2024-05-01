@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FERRARIS_H
+#define FERRARIS_H
 
 #include <Arduino.h>
 
@@ -106,4 +107,6 @@ class Ferraris {
 
 #if (FERRARIS_NUM < 1) || (FERRARIS_NUM > 7)
   #error "Maximum of 7 Farraris meters allowed"
+#endif
+
 #endif
