@@ -1,6 +1,4 @@
 #include "ferraris.h"
-#include <Arduino.h>
-
 
 // ugly stuff to get interrupt callable
 static void IRAM_ATTR staticInterruptHandler0() { Ferraris::getInstance(0).IRQhandler(); }
@@ -115,7 +113,7 @@ Ferraris& Ferraris::getInstance(unsigned char F)
 
 void Ferraris::begin()
 {
-  u_int8_t value = digitalRead(m_PIN);
+  uint8_t value = digitalRead(m_PIN);
 
   if (value == FERRARIS_SILVER) {
     m_state = Ferraris::states::silver_debounce;
@@ -239,7 +237,8 @@ bool Ferraris::setNewInterval(unsigned long value)
     return false;
 
   // LONG SHORT LONG XXXX LONG
-  if ((m_interval2 < m_interval1/3) &&
+  if ((m_interval2 < 10000)         &&
+      (m_interval2 < m_interval1/3) &&
       (m_interval2 < m_interval3/3) &&
       (m_interval2 < m_interval5/3)) {
     m_suspicious = true;
@@ -247,7 +246,9 @@ bool Ferraris::setNewInterval(unsigned long value)
   }
 
   // LONG SHORT SHORT LONG XXXX
-  if ((m_interval2 < m_interval1/4) &&
+  if ((m_interval2 < 6000)          &&
+      (m_interval3 < 6000)          &&
+      (m_interval2 < m_interval1/4) &&
       (m_interval3 < m_interval1/4) &&
       (m_interval2 < m_interval4/4) &&
       (m_interval3 < m_interval4/4)) {
@@ -256,7 +257,8 @@ bool Ferraris::setNewInterval(unsigned long value)
   }
 
   // LONG SHORT SHORT SHORT LONG
-  if ((m_interval2 < m_interval1/5) &&
+  if ((m_interval2 < 8000)          &&
+      (m_interval2 < m_interval1/5) &&
       (m_interval3 < m_interval1/5) &&
       (m_interval4 < m_interval1/5) &&
       (m_interval2 < m_interval5/4) &&
