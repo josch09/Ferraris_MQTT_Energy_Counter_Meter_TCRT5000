@@ -59,6 +59,8 @@ Ferraris::Ferraris()
   , m_timestampLast2(0)
   , m_revolutions(0)
   , m_revolutionsRaw(0)   // revolutions unfiltered
+  , m_revolutions5(0)
+  , m_revolutions10(0)
   , m_interval1(0)        // suspicious interval detection
   , m_interval2(0)
   , m_interval3(0)
@@ -185,6 +187,10 @@ void Ferraris::IRQhandler()
       if (!m_suspicious)
         m_revolutions++;
       m_revolutionsRaw++;
+      if(m_timestamp - m_timestampLast1 < 5000)
+        m_revolutions5++;
+      if(m_timestamp - m_timestampLast1 < 10000)
+        m_revolutions10++;
 
       m_direction = std::min(1, m_direction+1);
       m_timestampLast2 = m_timestampLast1;
@@ -214,7 +220,7 @@ void Ferraris::IRQhandler()
 // new Interval time [ms]
 bool Ferraris::setNewInterval(unsigned long value)
 {
-  // returns true when the previous interval was suspicious
+  // returns true when the previous interval or patterns were suspicious
 
   if ((!m_intervalTraining) &&
       (value < 100)) {
@@ -236,33 +242,32 @@ bool Ferraris::setNewInterval(unsigned long value)
   if (m_intervalTraining)
     return false;
 
-  // LONG SHORT LONG XXXX LONG
-  if ((m_interval2 < 10000)         &&
-      (m_interval2 < m_interval1/3) &&
-      (m_interval2 < m_interval3/3) &&
-      (m_interval2 < m_interval5/3)) {
-    m_suspicious = true;
-    return true;
-  }
-
+  // LONG SHORT LONG XXXX XXXX
+  if (((m_interval2 < 10000)         &&
+       (m_interval2 < m_interval1/3) &&
+       (m_interval2 < m_interval3/3)   ) ||
   // LONG SHORT SHORT LONG XXXX
-  if ((m_interval2 < 6000)          &&
-      (m_interval3 < 6000)          &&
-      (m_interval2 < m_interval1/4) &&
-      (m_interval3 < m_interval1/4) &&
-      (m_interval2 < m_interval4/4) &&
-      (m_interval3 < m_interval4/4)) {
-    m_suspicious = true;
-    return true;
-  }
-
+      ((m_interval2 < 9000)          &&
+       (m_interval3 < 9000)          &&
+       (m_interval2 < m_interval1/4) &&
+       (m_interval3 < m_interval1/4) &&
+       (m_interval2 < m_interval4/4) &&
+       (m_interval3 < m_interval4/4)   ) ||
   // LONG SHORT SHORT SHORT LONG
-  if ((m_interval2 < 8000)          &&
-      (m_interval2 < m_interval1/5) &&
-      (m_interval3 < m_interval1/5) &&
-      (m_interval4 < m_interval1/5) &&
-      (m_interval2 < m_interval5/4) &&
-      (m_interval3 < m_interval5/4)) {
+      ((m_interval2 < 8000)          &&
+       (m_interval3 < 8000)          &&
+       (m_interval4 < 8000)          &&
+       (m_interval2 < m_interval1/4) &&
+       (m_interval3 < m_interval1/4) &&
+       (m_interval4 < m_interval1/4) &&
+       (m_interval2 < m_interval5/4) &&
+       (m_interval3 < m_interval5/4)   ) ||
+  // LONG LONG SHORT LONG LONG
+      ((m_interval3 < 20000)         &&
+       (m_interval3 < m_interval2/3) &&
+       (m_interval3 < m_interval4/3) &&
+       (m_interval3 < m_interval1/4) &&
+       (m_interval3 < m_interval5/4)   )    ) {
     m_suspicious = true;
     return true;
   }
@@ -358,6 +363,28 @@ unsigned long Ferraris::get_revolutionsRaw() const
 void Ferraris::set_revolutionsRaw(unsigned long value)
 {
   m_revolutionsRaw = value;
+  m_changed = true;
+}
+
+unsigned long Ferraris::get_revolutions5() const
+{
+  return m_revolutions5;
+}
+
+void Ferraris::set_revolutions5(unsigned long value)
+{
+  m_revolutions5 = value;
+  m_changed = true;
+}
+
+unsigned long Ferraris::get_revolutions10() const
+{
+  return m_revolutions10;
+}
+
+void Ferraris::set_revolutions10(unsigned long value)
+{
+  m_revolutions10 = value;
   m_changed = true;
 }
 

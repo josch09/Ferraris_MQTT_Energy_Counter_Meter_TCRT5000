@@ -55,6 +55,12 @@ class Ferraris {
     // total revolution count (raw)
     unsigned long   get_revolutionsRaw() const;
     void            set_revolutionsRaw(unsigned long value);
+    // short revolution count (<5s interval)
+    unsigned long   get_revolutions5() const;
+    void            set_revolutions5(unsigned long value);
+    // short revolution count (<10s interval)
+    unsigned long   get_revolutions10() const;
+    void            set_revolutions10(unsigned long value);
 
     // config: revolutions per kWh
     unsigned int    get_U_kWh() const;
@@ -87,6 +93,8 @@ class Ferraris {
     unsigned long     m_timestampLast2;
     unsigned long     m_revolutions;      // total amount of revolutions (corrected filtered)
     unsigned long     m_revolutionsRaw;   // revolutions unfiltered
+    unsigned long     m_revolutions5;     // revolutions count (less than 5sec per revolution)
+    unsigned long     m_revolutions10;    // revolutions count (less than 10sec per revolution)
 
     unsigned long     m_interval1;        // suspicious interval in ms detection
     unsigned long     m_interval2;

@@ -49,6 +49,20 @@
         "direction": "display"
     },
     {
+        "name": "revolutionsShort5_1",
+        "label": "Umdrehungen [U] (<5s)",
+        "type": "uint32_t",
+        "length": 5,
+        "direction": "display"
+    },
+    {
+        "name": "revolutionsShort10_1",
+        "label": "Umdrehungen [U] (<10s)",
+        "type": "uint32_t",
+        "length": 5,
+        "direction": "display"
+    },
+    {
         "name": "W_1",
         "label": "Leistung [W]",
         "type": "int16_t",
@@ -76,6 +90,20 @@
     {
         "name": "revolutionsRaw_2",
         "label": "Umdrehungen [U] (raw)",
+        "type": "uint32_t",
+        "length": 5,
+        "direction": "display"
+    },
+    {
+        "name": "revolutionsShort5_2",
+        "label": "Umdrehungen [U] (<5s)",
+        "type": "uint32_t",
+        "length": 5,
+        "direction": "display"
+    },
+    {
+        "name": "revolutionsShort10_2",
+        "label": "Umdrehungen [U] (<10s)",
         "type": "uint32_t",
         "length": 5,
         "direction": "display"

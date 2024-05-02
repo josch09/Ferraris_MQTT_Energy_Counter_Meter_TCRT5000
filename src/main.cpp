@@ -201,16 +201,20 @@ void updateDashboard(uint8_t F)
 
   switch (F) {
     case 0:
-      dash.data.revolutions_1    = Ferraris::getInstance(0).get_revolutions();
-      dash.data.revolutionsRaw_1 = Ferraris::getInstance(0).get_revolutionsRaw();
+      dash.data.revolutions_1        = Ferraris::getInstance(0).get_revolutions();
+      dash.data.revolutionsRaw_1     = Ferraris::getInstance(0).get_revolutionsRaw();
+      dash.data.revolutionsShort5_1  = Ferraris::getInstance(0).get_revolutions5();
+      dash.data.revolutionsShort10_1 = Ferraris::getInstance(0).get_revolutions10();
       dash.data.kWh_1         = Ferraris::getInstance(0).get_kWh();
       dash.data.W_1           = Ferraris::getInstance(0).get_W();
       configManager.data.meter_counter_reading_1 = Ferraris::getInstance(0).get_kWh();
       break;
 #if FERRARIS_NUM > 1
     case 1:
-      dash.data.revolutions_2    = Ferraris::getInstance(1).get_revolutions();
-      dash.data.revolutionsRaw_2 = Ferraris::getInstance(1).get_revolutionsRaw();
+      dash.data.revolutions_2        = Ferraris::getInstance(1).get_revolutions();
+      dash.data.revolutionsRaw_2     = Ferraris::getInstance(1).get_revolutionsRaw();
+      dash.data.revolutionsShort5_2  = Ferraris::getInstance(1).get_revolutions5();
+      dash.data.revolutionsShort10_2 = Ferraris::getInstance(1).get_revolutions10();
       dash.data.kWh_2         = Ferraris::getInstance(1).get_kWh();
       dash.data.W_2           = Ferraris::getInstance(1).get_W();
       configManager.data.meter_counter_reading_2 = Ferraris::getInstance(1).get_kWh();
@@ -218,8 +222,10 @@ void updateDashboard(uint8_t F)
 #endif
 #if FERRARIS_NUM > 2
     case 2:
-      dash.data.revolutions_3    = Ferraris::getInstance(2).get_revolutions();
-      dash.data.revolutionsRaw_3 = Ferraris::getInstance(2).get_revolutionsRaw();
+      dash.data.revolutions_3        = Ferraris::getInstance(2).get_revolutions();
+      dash.data.revolutionsRaw_3     = Ferraris::getInstance(2).get_revolutionsRaw();
+      dash.data.revolutionsShort5_3  = Ferraris::getInstance(2).get_revolutions5();
+      dash.data.revolutionsShort10_3 = Ferraris::getInstance(2).get_revolutions10();
       dash.data.kWh_3         = Ferraris::getInstance(2).get_kWh();
       dash.data.W_3           = Ferraris::getInstance(2).get_W();
       configManager.data.meter_counter_reading_3 = Ferraris::getInstance(2).get_kWh();
@@ -227,8 +233,10 @@ void updateDashboard(uint8_t F)
 #endif
 #if FERRARIS_NUM > 3
     case 3:
-      dash.data.revolutions_4    = Ferraris::getInstance(3).get_revolutions();
-      dash.data.revolutionsRaw_4 = Ferraris::getInstance(3).get_revolutionsRaw();
+      dash.data.revolutions_4        = Ferraris::getInstance(3).get_revolutions();
+      dash.data.revolutionsRaw_4     = Ferraris::getInstance(3).get_revolutionsRaw();
+      dash.data.revolutionsShort5_4  = Ferraris::getInstance(3).get_revolutions5();
+      dash.data.revolutionsShort10_4 = Ferraris::getInstance(3).get_revolutions10();
       dash.data.kWh_4         = Ferraris::getInstance(3).get_kWh();
       dash.data.W_4           = Ferraris::getInstance(3).get_W();
       configManager.data.meter_counter_reading_4 = Ferraris::getInstance(3).get_kWh();
@@ -236,28 +244,34 @@ void updateDashboard(uint8_t F)
 #endif
 #if FERRARIS_NUM > 4
     case 4:
-      dash.data.revolutions_5    = Ferraris::getInstance(1).get_revolutions();
-      dash.data.revolutionsRaw_5 = Ferraris::getInstance(1).get_revolutionsRaw();
-      dash.data.kWh_5         = Ferraris::getInstance(1).get_kWh();
-      dash.data.W_5           = Ferraris::getInstance(1).get_W();
+      dash.data.revolutions_5        = Ferraris::getInstance(4).get_revolutions();
+      dash.data.revolutionsRaw_5     = Ferraris::getInstance(4).get_revolutionsRaw();
+      dash.data.revolutionsShort5_5  = Ferraris::getInstance(4).get_revolutions5();
+      dash.data.revolutionsShort10_5 = Ferraris::getInstance(4).get_revolutions10();
+      dash.data.kWh_5         = Ferraris::getInstance(4).get_kWh();
+      dash.data.W_5           = Ferraris::getInstance(4).get_W();
       configManager.data.meter_counter_reading_5 = Ferraris::getInstance(4).get_kWh();
       break;
 #endif
 #if FERRARIS_NUM > 5
     case 5:
-      dash.data.revolutions_6    = Ferraris::getInstance(2).get_revolutions();
-      dash.data.revolutionsRaw_6 = Ferraris::getInstance(2).get_revolutionsRaw();
-      dash.data.kWh_6         = Ferraris::getInstance(2).get_kWh();
-      dash.data.W_6           = Ferraris::getInstance(2).get_W();
+      dash.data.revolutions_6        = Ferraris::getInstance(5).get_revolutions();
+      dash.data.revolutionsRaw_6     = Ferraris::getInstance(5).get_revolutionsRaw();
+      dash.data.revolutionsShort5_6  = Ferraris::getInstance(5).get_revolutions5();
+      dash.data.revolutionsShort10_6 = Ferraris::getInstance(5).get_revolutions10();
+      dash.data.kWh_6         = Ferraris::getInstance(5).get_kWh();
+      dash.data.W_6           = Ferraris::getInstance(5).get_W();
       configManager.data.meter_counter_reading_6 = Ferraris::getInstance(5).get_kWh();
       break;
 #endif
 #if FERRARIS_NUM > 6
     case 6:
-      dash.data.revolutions_7    = Ferraris::getInstance(3).get_revolutions();
-      dash.data.revolutionsRaw_7 = Ferraris::getInstance(3).get_revolutionsRaw();
-      dash.data.kWh_7         = Ferraris::getInstance(3).get_kWh();
-      dash.data.W_7           = Ferraris::getInstance(3).get_W();
+      dash.data.revolutions_7        = Ferraris::getInstance(6).get_revolutions();
+      dash.data.revolutionsRaw_7     = Ferraris::getInstance(6).get_revolutionsRaw();
+      dash.data.revolutionsShort5_7  = Ferraris::getInstance(6).get_revolutions5();
+      dash.data.revolutionsShort10_7 = Ferraris::getInstance(6).get_revolutions10();
+      dash.data.kWh_7         = Ferraris::getInstance(6).get_kWh();
+      dash.data.W_7           = Ferraris::getInstance(6).get_W();
       configManager.data.meter_counter_reading_7 = Ferraris::getInstance(6).get_kWh();
       break;
 #endif

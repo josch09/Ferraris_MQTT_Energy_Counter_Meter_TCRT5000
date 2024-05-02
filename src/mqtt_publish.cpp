@@ -263,6 +263,12 @@ void publishMQTT_allinone(void)
     dtostrf(Ferraris::getInstance(m).get_W_average(), 1, 1, message_buffer);
     sensordata.concat(",\"power\": ");
     sensordata.concat(message_buffer);
+    ultoa(Ferraris::getInstance(m).get_revolutions5(), message_buffer, 10);
+    sensordata.concat(",\"uShort5\": ");
+    sensordata.concat(message_buffer);
+    ultoa(Ferraris::getInstance(m).get_revolutions10(), message_buffer, 10);
+    sensordata.concat(",\"uShort10\": ");
+    sensordata.concat(message_buffer);
     ultoa(Ferraris::getInstance(m).get_revolutionsRaw(), message_buffer, 10);
     sensordata.concat(",\"uRaw\": ");
     sensordata.concat(message_buffer);
