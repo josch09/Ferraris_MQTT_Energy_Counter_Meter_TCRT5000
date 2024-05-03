@@ -37,7 +37,7 @@
         "name": "mqtt_server",
         "label": "MQTT Server IP/FQDN",
         "type": "char",
-        "length": 20,
+        "length": 40,
         "value": "mqttserver.local"
     },
     {
